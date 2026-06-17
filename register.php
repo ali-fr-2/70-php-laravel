@@ -2,27 +2,6 @@
 
 include "database/pdo_connection.php";
 
-
-// $error = "";
-
-// if (isset($_POST['submit'])) {
-
-//     $username = trim($_POST['username']);
-//     $email = trim($_POST['email']);
-//     $password = $_POST['password'];
-//     $confirm = $_POST['confirm'];
-
-//     if ($username === "" || $email === "" || $password === "" || $confirm === "") {
-//         $error = "please fill the form";
-//     } elseif ($password !== $confirm) {
-//         $error = "password and confirm is not match";
-//     } elseif (strlen($password) < 6) {
-//         $error = "password must be at least 6 characters";
-//     }
-// }
-
-
-
 $error = "";
 
 if (
@@ -33,15 +12,23 @@ if (
 ) {
     if ($_POST['password'] === $_POST['confirm']) {
         if (strlen($_POST['password']) >= 6) {
-            if (isset($_POST['submit'])) {
-                $username = $_POST['username'];
-                $email = $_POST['email'];
-                $password = $_POST['password'];
-                $result = $connection->prepare("INSERT INTO users SET username=?, email=?, password=?");
-                $result->bindValue(1, $username);
-                $result->bindValue(2, $email);
-                $result->bindValue(3, $password);
-                $result->execute();
+            $sql = "SELECT * FROM users WHERE email=?";
+            $statement = $connection->prepare($sql);
+            $statement->execute([$_POST['email']]);
+            $user = $statement->fetch();
+            if ($user === false) {
+                if (isset($_POST['submit'])) {
+                    $username = $_POST['username'];
+                    $email = $_POST['email'];
+                    $password = $_POST['password'];
+                    $result = $connection->prepare("INSERT INTO users SET username=?, email=?, password=?");
+                    $result->bindValue(1, $username);
+                    $result->bindValue(2, $email);
+                    $result->bindValue(3, $password);
+                    $result->execute();
+                }
+            }else{
+                $error="email is reapeted";
             }
         } else {
             $error = "password must be at last 6";
@@ -84,13 +71,13 @@ if (
         <div id="overlay"></div>
         <div class="form-container">
             <form action="#" method="post">
-                <div style="color: red;">
+                <section style="color: red;">
                     <?php
                     if ($error !== "") {
                         echo $error;
                     }
                     ?>
-                </div>
+                </section>
                 <h1 class="title">ثبت نام در وبلاگ</h1>
                 <div class="mt-3 position-relative">
                     <input type="text" name="username" class="field" placeholder="نام ...">
