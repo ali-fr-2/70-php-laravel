@@ -1,3 +1,15 @@
+<?php 
+
+session_start();
+
+
+
+if(!isset($_SESSION['user'])){
+    header("location:..\login.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -126,7 +138,7 @@
                     <li x-data="dropdown" class="sidebar-item">
                         <div @click="toggle" class="sidebar-link">
                             <i class="me-2 bi bi-power"></i>
-                            <span> خروج</span>
+                            <span> <a class="text-decoration-none text-black" href="../logout.php">logout</a></span>
                             <i class="ms-auto bi "></i>
                         </div>
                         <ul x-show="open" x-transition class="submenu">
