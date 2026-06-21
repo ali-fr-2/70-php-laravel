@@ -1,5 +1,20 @@
+<?php
+
+
+include "database/pdo_connection.php";
+
+
+$select = $connection->prepare("SELECT * FROM posts");
+$select->execute();
+$posts = $select->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,6 +41,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>وبلاگ | صفحه اصلی</title>
 </head>
+
 <body>
     <div class="modal fade" id="modalSearchBox">
         <div class="modal-dialog modal-dialog-centered">
@@ -45,7 +61,7 @@
             <div class="d-flex align-items-center">
                 <button type="button" class="search-icon" data-bs-toggle="modal" data-bs-target="#modalSearchBox">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg>
                 </button>
                 <button id="switchTheme"></button>
@@ -55,7 +71,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
                 <i class="fas fa-bars fs-3"></i>
             </button>
-            
+
 
             <div class="collapse navbar-collapse right-nav justify-content-start" id="navbar">
                 <ul class="navbar-nav nav-left">
@@ -71,14 +87,14 @@
                             <span>پست ها</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item me-0">
                         <a class="nav-link mt-3 mt-lg-0" href="/login.html">
                             <i class="fa fa-sign-in ms-1"></i>
                             <span>ورود</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item me-0">
                         <a class="nav-link mt-3 mt-lg-0" href="/register.html">
                             <i class="fa fa-user-plus ms-1"></i>
@@ -88,7 +104,7 @@
                 </ul>
             </div>
 
-            
+
         </div>
     </nav>
 
@@ -114,118 +130,40 @@
             <div id="posts" class="mb-5 col-lg-9">
                 <h4 class="posts__title">پست ها</h4>
                 <div class="row">
-                    <div class="col-md-6 col-lg-4 mt-3">
-                        <div class="post">
-                            <div class="post__img">
-                                <a href="#">
-                                    <img src="images/post_img.png" class="w-100 rounded" alt="Image post">
-                                </a>
+
+                    <?php
+                    function limit_words($string, $word_limit)
+                    {
+                        $words = explode(" ", $string);
+                        return implode(" ", array_splice($words, 0, $word_limit));
+                    }
+                    foreach ($posts as $value): ?>
+
+                        <div class="col-md-6 col-lg-4 mt-3">
+                            <div class="post">
+                                <div class="post__img">
+                                    <a href="#">
+                                        <img src="<?= $value['image']; ?>" class="w-100 rounded" alt="Image post">
+                                    </a>
+                                </div>
+                                <h4 class="">
+                                    <a href="#" class="post__title d-block"><?= $value['title']; ?></a>
+                                </h4>
+                                <p class="post__desc">
+                                    <?php $content=$value['caption'];
+                                    echo limit_words($content,25)."...";
+                                    ?>
+                                </p>
+
+                                <a href="#" class="post__link">مشاهده پست</a>
                             </div>
-                            <h4 class="">
-                                <a href="#" class="post__title d-block">php یا nodejs ?</a>
-                            </h4>
-                            <p class="post__desc">
-                                لوی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیبد.
-                            </p>
-
-                            <a href="#" class="post__link">مشاهده پست</a>
                         </div>
-                    </div>
 
-                    <div class="col-md-6 col-lg-4 mt-3">
-                        <div class="post">
-                            <div class="post__img">
-                                <a href="#">
-                                    <img src="images/post_img.png" class="w-100 rounded" alt="Image post">
-                                </a>
-                            </div>
-                            <h4 class="">
-                                <a href="#" class="post__title d-block">php یا nodejs ?</a>
-                            </h4>
-                            <p class="post__desc">
-                                لوی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیبد.
-                            </p>
+                    <?php endforeach; ?>
 
-                            <a href="#" class="post__link">مشاهده پست</a>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6 col-lg-4 mt-3">
-                        <div class="post">
-                            <div class="post__img">
-                                <a href="#">
-                                    <img src="images/post_img.png" class="w-100 rounded" alt="Image post">
-                                </a>
-                            </div>
-                            <h4 class="">
-                                <a href="#" class="post__title d-block">php یا nodejs ?</a>
-                            </h4>
-                            <p class="post__desc">
-                                لوی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیبد.
-                            </p>
-
-                            <a href="#" class="post__link">مشاهده پست</a>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6 col-lg-4 mt-3">
-                        <div class="post">
-                            <div class="post__img">
-                                <a href="#">
-                                    <img src="images/post_img.png" class="w-100 rounded" alt="Image post">
-                                </a>
-                            </div>
-                            <h4 class="">
-                                <a href="#" class="post__title d-block">php یا nodejs ?</a>
-                            </h4>
-                            <p class="post__desc">
-                                لوی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیبد.
-                            </p>
-
-                            <a href="#" class="post__link">مشاهده پست</a>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6 col-lg-4 mt-3">
-                        <div class="post">
-                            <div class="post__img">
-                                <a href="#">
-                                    <img src="images/post_img.png" class="w-100 rounded" alt="Image post">
-                                </a>
-                            </div>
-                            <h4 class="">
-                                <a href="#" class="post__title d-block">php یا nodejs ?</a>
-                            </h4>
-                            <p class="post__desc">
-                                لوی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیبد.
-                            </p>
-
-                            <a href="#" class="post__link">مشاهده پست</a>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6 col-lg-4 mt-3">
-                        <div class="post">
-                            <div class="post__img">
-                                <a href="#">
-                                    <img src="images/post_img.png" class="w-100 rounded" alt="Image post">
-                                </a>
-                            </div>
-                            <h4 class="">
-                                <a href="#" class="post__title d-block">php یا nodejs ?</a>
-                            </h4>
-                            <p class="post__desc">
-                                لوی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیبد.
-                            </p>
-
-                            <a href="#" class="post__link">مشاهده پست</a>
-                        </div>
-                    </div>
                 </div>
+
+
             </div>
             <aside class="categories col-lg-3 mt-5 mt-md-0">
                 <h4 class="categories__title">
@@ -247,7 +185,7 @@
             <p class="fw-bold text-white mb-3 mb-md-0 fs-6">تمامی حقوق برای کدیاد محفوظ می باشد &copy;</p>
             <button type="button" id="scrollUpBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
                 </svg>
             </button>
         </div>
@@ -258,4 +196,5 @@
     <script src="js/scrollToUp.js"></script>
     <script src="js/darkMode.js"></script>
 </body>
+
 </html>
