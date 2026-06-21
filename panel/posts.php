@@ -2,11 +2,17 @@
 
 session_start();
 include "../database/pdo_connection.php";
+$counter=1;
+
+$select = $connection->prepare("SELECT * FROM posts");
+$select->execute();
+$posts = $select->fetchAll(PDO::FETCH_ASSOC);
+// var_dump($posts);
 
 
-if(!isset($_SESSION['user'])){
+
+if (!isset($_SESSION['user'])) {
   header("location:../login.php");
-  
 }
 
 
@@ -20,9 +26,13 @@ if(!isset($_SESSION['user'])){
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/bootstrap.rtl.min.css" />
+  <!-- <link rel="stylesheet" href="css/bootstrap.rtl.min.css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-  <link rel="stylesheet" href="css/panel.css" />
+  <!-- <link rel="stylesheet" href="css/panel.css" /> -->
+  <link rel="stylesheet" href="./css/bootstrap.rtl.min.css" />
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="./css/panel.css" />
+
   <title> مقالات </title>
 </head>
 
@@ -157,31 +167,40 @@ if(!isset($_SESSION['user'])){
           <h6 class="text-gray h6 fw-bold">
             <i class="bi bi-plus-circle"></i>
 
-           
-              <table class="table table-striped ">
-                <thead class="">
-                  <tr class="" >
-                    <th scope="col">#</th>
-                    <th scope="col">عنوان </th>
-                    <th scope="col">تاریخ ثبت</th>
-                    <th scope="col">عکس پست</th>
-                    <th scope="col">نویسنده</th>
-                    <th scope="col">عملیات</th>
-                  </tr>
-                </thead>
-                
+
+            <table class="table table-striped ">
+              <thead class="">
+                <tr class="">
+                  <th scope="col">#</th>
+                  <th scope="col">عنوان </th>
+                  <th scope="col">تاریخ ثبت</th>
+                  <th scope="col">عکس پست</th>
+                  <th scope="col">نویسنده</th>
+                  <th scope="col">عملیات</th>
+                </tr>
+              </thead>
+              <?php foreach ($posts as $value): ?>
                 <tbody>
-                 
+                  <tr>
+                  <th scope="row"><?= $counter++?></th>
+                  <td><?= $value['title'] ?></td>
+                  <td><?= $value['date'] ?></td>
+                  <td><img src="<?= $value['image'] ?>" alt="" height="50px"></td>
+                  <td><?= $value['writer'] ?></td>
+                  <td><a href="" class="btn btn-danger">delete</a> <a href="" class="btn btn-warning">edit</a></td>
+
+
                   </tr>
+
 
                 </tbody>
-               
-                
-                
-              </table>
+              <?php endforeach; ?>
 
-            
-          
+
+            </table>
+
+
+
         </div>
       </div>
     </section>
@@ -200,10 +219,10 @@ if(!isset($_SESSION['user'])){
   <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
-  <script src="js/charts/chart1.js"></script>
-  <script src="js/charts/chart2.js"></script>
-  <script src="js/alpineComponents.js"></script>
-  <script src="js/darkMode.js"></script>
+  <script src="./js/charts/chart1.js"></script>
+  <script src="./js/charts/chart2.js"></script>
+  <script src="./js/alpineComponents.js"></script>
+  <script src="./js/darkMode.js"></script>
 </body>
 
 </html>

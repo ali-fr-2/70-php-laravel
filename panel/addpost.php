@@ -51,8 +51,8 @@ if (isset($_POST['submit'])) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.rtl.min.css"
     integrity="sha384-beJoAY4VI2Q+5IPXjI207/ntOuaz06QYCdpWfWRv4lSFDyUSqsM0W+wiAMr2I185" crossorigin="anonymous">
   <link rel="stylesheet" href="./css/main.css" />
-  <link rel="stylesheet" href="../styles/css/posts.css" />
-  <link rel="stylesheet" href="../styles/css/header.css" />
+  <link rel="stylesheet" href="./css/bootstrap.rtl.min.css" />
+  <link rel="stylesheet" href="./css/panel.css" />
   <title>افزودن پست جدید</title>
 </head>
 
@@ -270,7 +270,7 @@ if (isset($_POST['submit'])) {
   <script src="./js/charts/chart2.js"></script>
   <!-- <script src="js/charts/chart2.js"></script> -->
   <script src="./js/alpineComponents.js"></script>
-  <script src="../js/darkMode.js"></script>
+  <script src="./js/darkMode.js"></script>
 </body>
 
 </html>
