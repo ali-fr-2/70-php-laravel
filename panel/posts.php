@@ -187,7 +187,7 @@ if (!isset($_SESSION['user'])) {
                   <td><?= $value['date'] ?></td>
                   <td><img src="<?= $value['image'] ?>" alt="" height="50px"></td>
                   <td><?= $value['writer'] ?></td>
-                  <td><a href="" class="btn btn-danger">delete</a> <a href="" class="btn btn-warning">edit</a></td>
+                  <td><a href="./deletepost.php?id=<?=$value['id'];?>" class="btn btn-danger">delete</a> <a href="" class="btn btn-warning">edit</a></td>
 
 
                   </tr>
