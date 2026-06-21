@@ -9,6 +9,10 @@ $select->execute();
 $posts = $select->fetchAll(PDO::FETCH_ASSOC);
 // var_dump($posts);
 
+$writer = $connection->prepare("SELECT * FROM writers");
+$writer->execute();
+$writers = $writer->fetchAll(PDO::FETCH_ASSOC);
+
 
 
 if (!isset($_SESSION['user'])) {
@@ -179,15 +183,15 @@ if (!isset($_SESSION['user'])) {
                   <th scope="col">عملیات</th>
                 </tr>
               </thead>
-              <?php foreach ($posts as $value): ?>
+              <?php foreach ($posts as $post): ?>
                 <tbody>
                   <tr>
                   <th scope="row"><?= $counter++?></th>
-                  <td><?= $value['title'] ?></td>
-                  <td><?= $value['date'] ?></td>
-                  <td><img src="<?= $value['image'] ?>" alt="" height="50px"></td>
-                  <td><?= $value['writer'] ?></td>
-                  <td><a href="./deletepost.php?id=<?=$value['id'];?>" class="btn btn-danger">delete</a> <a href="./editpost.php?id=<?=$value['id']; ?>" class="btn btn-warning">edit</a></td>
+                  <td><?= $post['title'] ?></td>
+                  <td><?= $post['date'] ?></td>
+                  <td><img src="<?= $post['image'] ?>" alt="" height="50px"></td>
+                  <td><?php foreach($writers as $writer){if($post['writer']==$writer['id']){echo $writer['username'];}}?></td>
+                  <td><a href="./deletepost.php?id=<?=$post['id'];?>" class="btn btn-danger">delete</a> <a href="./editpost.php?id=<?=$post['id']; ?>" class="btn btn-warning">edit</a></td>
 
 
                   </tr>

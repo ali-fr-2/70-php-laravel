@@ -3,6 +3,10 @@
 include "../database/pdo_connection.php";
 include "../database/jdf.php";
 
+$writer = $connection->prepare("SELECT * FROM writers");
+$writer->execute();
+$writers = $writer->fetchAll(PDO::FETCH_ASSOC);
+
 session_start();
 
 if (!isset($_SESSION['user'])) {
@@ -25,6 +29,7 @@ if (isset($_POST['submit'])) {
   $result->bindValue(5, $image);
   $result->execute();
 }
+
 
 
 
@@ -220,8 +225,12 @@ if (isset($_POST['submit'])) {
               <div class="col-md-6">
                 <label for="category" class="text-gray-600 fw-bold"> نویسنده</label>
                 <select name="writer" class="form-select mt-2" id="category">
-                  <option value="1"> میرراد</option>
+                  <?php foreach ($writers as $writer): ?>
 
+                    <option value="<?= $writer['id'];?>"><?= $writer['username'];?> </option>
+
+
+                  <?php endforeach; ?>
                 </select>
               </div>
 

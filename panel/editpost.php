@@ -13,7 +13,9 @@ $select->execute();
 
 $posts=$select->fetchAll(PDO::FETCH_ASSOC);
 
-
+$writer = $connection->prepare("SELECT * FROM writers");
+$writer->execute();
+$writers = $writer->fetchAll(PDO::FETCH_ASSOC);
 
 
 session_start();
@@ -211,16 +213,16 @@ if (isset($_POST['submit'])) {
           </h1>
           <form action="#" class="mt-4" method="POST">
 
-            <?php foreach($posts as $value):?>
+            <?php foreach($posts as $post):?>
 
             <div class="row">
               <div class="col-md-6">
                 <label for="name" class="text-gray-600 fw-bold">نام پست</label>
-                <input name="title" id="name" type="text" class="form-control mt-2" value="<?= $value['title'];?>" />
+                <input name="title" id="name" type="text" class="form-control mt-2" value="<?= $post['title'];?>" />
               </div>
               <div class="col-md-6">
                 <label for="name" class="text-gray-600 fw-bold"> لینک عکس</label>
-                <input name="image" id="name" type="text" class="form-control mt-2" value="<?= $value['image'];?>" />
+                <input name="image" id="name" type="text" class="form-control mt-2" value="<?= $post['image'];?>" />
               </div>
             </div>
 
@@ -231,14 +233,17 @@ if (isset($_POST['submit'])) {
                 id="text"
                 class="form-control mt-2"
                 cols="30"
-                rows="10"><?= $value['caption']?></textarea>
+                rows="10"><?= $post['caption']?></textarea>
             </div>
 
             <div class="row mt-4">
               <div class="col-md-6">
                 <label for="category" class="text-gray-600 fw-bold"> نویسنده</label>
                 <select name="writer" class="form-select mt-2" id="category">
-                  <option value="<?= $value['writer'];?>"> میرراد</option>
+
+                  <?php  foreach($writers as $writer):?>
+                      <option value="<?= $writer['id'];?>"><?= $writer['username'];?></option>
+                    <?php endforeach;?>
 
                 </select>
               </div>
