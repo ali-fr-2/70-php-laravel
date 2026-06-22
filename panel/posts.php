@@ -2,7 +2,7 @@
 
 session_start();
 include "../database/pdo_connection.php";
-$counter=1;
+$counter = 1;
 
 $select = $connection->prepare("SELECT * FROM posts");
 $select->execute();
@@ -17,6 +17,9 @@ $writers = $writer->fetchAll(PDO::FETCH_ASSOC);
 
 if (!isset($_SESSION['user'])) {
   header("location:../login.php");
+}
+if ($_SESSION['role'] == 1) {
+  header("location:..\login.php");
 }
 
 
@@ -186,12 +189,16 @@ if (!isset($_SESSION['user'])) {
               <?php foreach ($posts as $post): ?>
                 <tbody>
                   <tr>
-                  <th scope="row"><?= $counter++?></th>
-                  <td><?= $post['title'] ?></td>
-                  <td><?= $post['date'] ?></td>
-                  <td><img src="<?= $post['image'] ?>" alt="" height="50px"></td>
-                  <td><?php foreach($writers as $writer){if($post['writer']==$writer['id']){echo $writer['username'];}}?></td>
-                  <td><a href="./deletepost.php?id=<?=$post['id'];?>" class="btn btn-danger">delete</a> <a href="./editpost.php?id=<?=$post['id']; ?>" class="btn btn-warning">edit</a></td>
+                    <th scope="row"><?= $counter++ ?></th>
+                    <td><?= $post['title'] ?></td>
+                    <td><?= $post['date'] ?></td>
+                    <td><img src="<?= $post['image'] ?>" alt="" height="50px"></td>
+                    <td><?php foreach ($writers as $writer) {
+                          if ($post['writer'] == $writer['id']) {
+                            echo $writer['username'];
+                          }
+                        } ?></td>
+                    <td><a href="./deletepost.php?id=<?= $post['id']; ?>" class="btn btn-danger">delete</a> <a href="./editpost.php?id=<?= $post['id']; ?>" class="btn btn-warning">edit</a></td>
 
 
                   </tr>

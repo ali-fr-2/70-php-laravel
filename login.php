@@ -21,7 +21,10 @@ if (
         $result->bindValue(2,$password);
         $result->execute();
         if ($result->rowCount()>=1) {
+            $role=$result->fetch(PDO::FETCH_ASSOC);
             $_SESSION['user']=$_POST['email'];
+            $_SESSION['role']=$role['role'];
+            // echo $_SESSION['role'];
             // print_r($_SESSION);
             header("location:panel\index.php");
         }else{

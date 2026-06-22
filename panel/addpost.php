@@ -13,6 +13,11 @@ if (!isset($_SESSION['user'])) {
   header("location:..\login.php");
 }
 
+if ($_SESSION['role'] == 1) {
+  header("location:..\login.php");
+}
+
+
 if (isset($_POST['submit'])) {
 
   $title = $_POST['title'];
@@ -227,7 +232,7 @@ if (isset($_POST['submit'])) {
                 <select name="writer" class="form-select mt-2" id="category">
                   <?php foreach ($writers as $writer): ?>
 
-                    <option value="<?= $writer['id'];?>"><?= $writer['username'];?> </option>
+                    <option value="<?= $writer['id']; ?>"><?= $writer['username']; ?> </option>
 
 
                   <?php endforeach; ?>

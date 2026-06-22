@@ -64,6 +64,24 @@ if(!isset($_SESSION['user'])){
                         </ul>
                     </li>
 
+                    <?php if($_SESSION['role']==2){?>
+                                        <li x-data="dropdown" class="sidebar-item">
+                        <div @click="toggle" class="sidebar-link">
+                            <i class="me-2 bi bi-shop"></i>
+                            <span>مقالات</span>
+                            <i class="ms-auto bi bi-chevron-down"></i>
+                        </div>
+                        <ul x-show="open" x-transition class="submenu">
+                            <li class="submenu-item">
+                                <a href="#">افزودن مقاله  </a>
+                            </li>
+                            <li class="submenu-item">
+                                <a href="#">مقاله ها </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <?php }?>
+
                     <li x-data="dropdown" class="sidebar-item">
                         <div @click="toggle" class="sidebar-link">
                             <i class="me-2 bi bi-box-seam"></i>
