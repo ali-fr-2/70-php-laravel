@@ -13,6 +13,18 @@ $writer = $connection->prepare("SELECT * FROM writers");
 $writer->execute();
 $writers = $writer->fetchAll(PDO::FETCH_ASSOC);
 
+$views = $connection->prepare("INSERT INTO views SET viewpost=?");
+$views->bindValue(1,$getID);
+$views->execute();
+
+$counterview=$connection->prepare("SELECT COUNT(*) FROM views WHERE viewpost=?");
+$counterview->bindValue(1,$getID);
+$counterview->execute();
+
+$seens=$counterview->fetch(PDO::FETCH_ASSOC);
+
+foreach($seens as $seen){};
+
 
 ?>
 
@@ -111,7 +123,8 @@ $writers = $writer->fetchAll(PDO::FETCH_ASSOC);
                 <?php foreach($posts as $post):?>
                 <h4 class="title"> <?= $post['title'];?></h4>
                 <span class="date">نوشته شده توسط <?php foreach($writers as $writer){if($post['writer']==$writer['id']){echo $writer['username'];}}?></span>
-                <span class="author"><?= $post['date'];?>  </span>
+                <span class="author"><?= $post['date'];?> تاریخ ثبت </span>
+                <span class="author"><?= $seen?>  بازدید </span>
 
                 <div class="img w-100">
                     <img src="<?= $post['image'];?>" alt="Image" class="w-100 rounded">

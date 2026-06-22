@@ -151,7 +151,7 @@ $posts = $select->fetchAll(PDO::FETCH_ASSOC);
                                 </h4>
                                 <p class="post__desc">
                                     <?php $content=$post['caption'];
-                                    echo limit_words($content,25)."...";
+                                    echo limit_words($content,10)."...";
                                     ?>
                                 </p>
 
