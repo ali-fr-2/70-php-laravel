@@ -1,3 +1,21 @@
+<?php 
+
+include "./database/pdo_connection.php";
+
+$getID=$_GET['id'];
+$select = $connection->prepare("SELECT * FROM posts WHERE id=?");
+$select->bindValue(1,$getID);
+$select->execute();
+$posts = $select->fetchAll(PDO::FETCH_ASSOC);
+// var_dump($posts);
+
+$writer = $connection->prepare("SELECT * FROM writers");
+$writer->execute();
+$writers = $writer->fetchAll(PDO::FETCH_ASSOC);
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -90,19 +108,17 @@
     <main style="margin-top: 10rem; margin-bottom: 5rem;">
         <div class="post-container w-100 mx-auto">
             <div class="content bg-white">
-                <h4 class="title">php یا nodejs ?</h4>
-                <span class="date">نوشته شده توسط m</span>
-                <span class="author">12 تیر 1401</span>
+                <?php foreach($posts as $post):?>
+                <h4 class="title"> <?= $post['title'];?></h4>
+                <span class="date">نوشته شده توسط <?php foreach($writers as $writer){if($post['writer']==$writer['id']){echo $writer['username'];}}?></span>
+                <span class="author"><?= $post['date'];?>  </span>
 
                 <div class="img w-100">
-                    <img src="images/post_img.png" alt="Image" class="w-100 rounded">
+                    <img src="<?= $post['image'];?>" alt="Image" class="w-100 rounded">
                 </div>
 
-                <p class="desc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه درصد گذشته حال و آینده</p>
-                <p class="desc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه درصد گذشته حال و آینده</p>
-                <p class="desc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه درصد گذشته حال و آینده</p>
-                <p class="desc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه درصد گذشته حال و آینده</p>
-                <p class="desc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه درصد گذشته حال و آینده</p>
+                <p class="desc"><?= $post['caption'];?></p>
+            <?php endforeach ;?>
             </div>
         </div>
     </main>

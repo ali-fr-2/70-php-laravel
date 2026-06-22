@@ -4,7 +4,7 @@
 include "database/pdo_connection.php";
 
 
-$select = $connection->prepare("SELECT * FROM posts");
+$select = $connection->prepare("SELECT * FROM posts ORDER BY `id` DESC LIMIT 3");
 $select->execute();
 $posts = $select->fetchAll(PDO::FETCH_ASSOC);
 
@@ -137,25 +137,25 @@ $posts = $select->fetchAll(PDO::FETCH_ASSOC);
                         $words = explode(" ", $string);
                         return implode(" ", array_splice($words, 0, $word_limit));
                     }
-                    foreach ($posts as $value): ?>
+                    foreach ($posts as $post): ?>
 
                         <div class="col-md-6 col-lg-4 mt-3">
                             <div class="post">
                                 <div class="post__img">
                                     <a href="#">
-                                        <img src="<?= $value['image']; ?>" class="w-100 rounded" alt="Image post">
+                                        <img src="<?= $post['image']; ?>" class="w-100 rounded" alt="Image post">
                                     </a>
                                 </div>
                                 <h4 class="">
-                                    <a href="#" class="post__title d-block"><?= $value['title']; ?></a>
+                                    <a href="#" class="post__title d-block"><?= $post['title']; ?></a>
                                 </h4>
                                 <p class="post__desc">
-                                    <?php $content=$value['caption'];
+                                    <?php $content=$post['caption'];
                                     echo limit_words($content,25)."...";
                                     ?>
                                 </p>
 
-                                <a href="#" class="post__link">مشاهده پست</a>
+                                <a href="./single.php?id=<?=$post['id'];?>" class="post__link">مشاهده پست</a>
                             </div>
                         </div>
 
